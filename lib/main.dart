@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-void main() => runApp(const MaterialApp(home: MatchListScreen()));
+void main() {
+  runApp(const MaterialApp(home: MatchListScreen()));
+}
 
 class MatchListScreen extends StatefulWidget {
   const MatchListScreen({super.key});
@@ -16,10 +18,10 @@ class _MatchListScreenState extends State<MatchListScreen> {
   @override
   void initState() {
     super.initState();
-    _checkConnection();
+    _testConnection();
   }
 
-  Future<void> _checkConnection() async {
+  Future<void> _testConnection() async {
     try {
       final response = await http.get(
         Uri.parse('https://api-football-v1.p.rapidapi.com/v3/status'),
@@ -30,12 +32,12 @@ class _MatchListScreenState extends State<MatchListScreen> {
       );
       
       if (response.statusCode == 200) {
-        setState(() => _status = "Sikeres kapcsolat! API Működik.");
+        setState(() => _status = "Sikeres kapcsolat!");
       } else {
         setState(() => _status = "Hiba: ${response.statusCode}");
       }
     } catch (e) {
-      setState(() => _status = "Hálózati hiba: $e");
+      setState(() => _status = "Hiba: $e");
     }
   }
 
@@ -43,7 +45,7 @@ class _MatchListScreenState extends State<MatchListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("AI Pro Analyzer")),
-      body: Center(child: Text(_status, style: const TextStyle(fontSize: 20))),
+      body: Center(child: Text(_status)),
     );
   }
 }
